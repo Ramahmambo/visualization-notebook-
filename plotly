@@ -1,0 +1,51 @@
+import yfinance as yf
+import plotly.graph_objects as go
+import pandas as pd
+
+# Fetch stock data for the past 6 months (e.g., for Tesla)
+stock_symbol = 'TSLA'  # Change this to the stock symbol you want
+stock_data = yf.download(stock_symbol, period="6mo", interval="1d")
+
+# Create the line chart using Plotly
+fig = go.Figure()
+
+# Add stock price line to the figure (using closing prices)
+fig.add_trace(go.Scatter(
+    x=stock_data.index,  # x-axis: Time (date)
+    y=stock_data['Close'],  # y-axis: Stock Close Price
+    mode='lines',  # Display the data as a line
+    name=f'{stock_symbol} Stock Price',  # Name of the line
+    line=dict(color='blue', width=2),  # Line styling
+    hovertemplate='Date: %{x}<br>Price: $%{y:.2f}<extra></extra>'  # Hover effect with date and price
+))
+
+# Update layout for interactivity
+fig.update_layout(
+    title=f'{stock_symbol} Stock Price Over the Last 6 Months',  # Title of the chart
+    xaxis_title='Date',  # Label for x-axis
+    yaxis_title='Stock Price (USD)',  # Label for y-axis
+    hovermode='closest',  # Display closest value when hovering
+    template='plotly_dark',  # Dark theme for aesthetic
+    xaxis_rangeslider_visible=False,  # Disable range slider for zooming in/out
+    xaxis=dict(
+        showgrid=True,  # Show grid lines on the x-axis
+        tickformat='%b %d',  # Display date in month-day format (e.g., Jan 01)
+        type='date',  # Set x-axis as a date
+        showline=True,  # Show a line on the x-axis
+        zeroline=False,  # Remove the zero line
+        range=[stock_data.index.min(), stock_data.index.max()],  # Ensure the x-axis covers the full data range
+    ),
+    yaxis=dict(
+        showgrid=True,  # Show grid lines on the y-axis
+        showline=True,  # Show a line on the y-axis
+        zeroline=False,  # Remove the zero line
+        tickprefix="$",  # Add a $ sign before the price
+        ticksuffix=" USD",  # Add " USD" suffix for clarity
+        tickformat=",.2f",  # Format the y-axis ticks with commas and two decimal places
+        range=[stock_data['Close'].min() * 0.9, stock_data['Close'].max() * 1.1],  # Set y-axis range to display all prices with padding
+    ),
+    showlegend=False  # Disable legend (only one line in this case)
+)
+
+# Show the plot
+fig.show()
