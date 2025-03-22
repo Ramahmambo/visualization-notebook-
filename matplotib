@@ -1,0 +1,40 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import numpy as np
+
+# Data for Bar Chart: Average Temperatures of Cities
+cities = ['City A', 'City B', 'City C', 'City D', 'City E']
+temperatures = [25.4, 22.1, 28.0, 24.6, 23.5]
+
+# Creating a DataFrame for the bar chart
+data = pd.DataFrame({
+    'City': cities,
+    'Average Temperature': temperatures
+})
+
+# Bar chart for average temperatures of cities
+plt.figure(figsize=(10, 6))
+sns.barplot(x='City', y='Average Temperature', data=data, palette='coolwarm')
+plt.title('Average Temperatures of Cities Over the Past 10 Years', fontsize=16)
+plt.xlabel('City', fontsize=14)
+plt.ylabel('Average Temperature (°C)', fontsize=14)
+plt.show()
+
+# Data for Scatter Plot: Study Hours vs. Student Grades
+study_hours = np.random.randint(1, 10, 20)  # 20 students, hours studied
+grades = np.random.randint(50, 100, 20)  # Corresponding grades
+
+# Creating a DataFrame for the scatter plot
+study_data = pd.DataFrame({
+    'Study Hours': study_hours,
+    'Grades': grades
+})
+
+# Scatter plot for study hours vs. student grades
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='Study Hours', y='Grades', data=study_data, color='blue', s=100, edgecolor='black')
+plt.title('Correlation Between Study Hours and Student Grades', fontsize=16)
+plt.xlabel('Study Hours', fontsize=14)
+plt.ylabel('Grades', fontsize=14)
+plt.show()
